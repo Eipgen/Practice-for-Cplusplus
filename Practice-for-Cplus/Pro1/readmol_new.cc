@@ -124,5 +124,34 @@ int main()
     cout << "\nPrinciples moments of inertia (g*cm^2):\n";
     cout << evals*conv1 <<endl;
 
+    //classfy the rotor
+    if(mol.natom==2) cout << "\nMolecule is diatomic.\n";
+    
+    else if (evals(0)<1e-4) cout << "\n Molecule is Linear\n";
+    
+    else if ((fabs(evals(0)-evals(1))<1e-4) && (fabs(evals(1)-evals(2))<1e-4))
+        cout << "\n Molecule is a spherical top.\n" ;
+    
+    else if ((fabs(evals(0)-evals(1))<1e-4) && (fabs(evals(1)-evals(2))>1e-4))
+        cout << "\n Molecule is an oblate symmetric top.\n";
+
+    else if((fabs(evals(0) - evals(1)) > 1e-4) && (fabs(evals(1) - evals(2)) < 1e-4))
+        cout << "\nMolecule is a prolate symmetric top.\n";
+    else cout << "\nMolecule is an asymmetric top.\n";
+
+    //compute the rotational constant
+
+    double _pi=acos(-1.0);
+    conv=6.6260755E-34/(8.0*_pi*_pi);
+    conv /=1.6605402E-27 * 0.529177249E-10 * 0.529177249E-10;
+    conv *=1e-6;
+    cout << "\nRotational constant(MHz)\n";
+    cout << "\tA = " << conv/evals(0) << "\t B = " << conv/evals(1) << "\t C = " << conv/evals(2) << endl;
+
+    conv = 6.6260755E-34/(8.0 * _pi * _pi);
+    conv /= 1.6605402E-27 * 0.529177249E-10 * 0.529177249E-10;
+    conv /= 2.99792458E10;
+    cout << "\nRotational constants (cm-1):\n";
+    cout << "\tA = " << conv/evals(0) << "\t B = " << conv/evals(1) << "\t C = " << conv/evals(2) << endl;
     return 0;
 }
