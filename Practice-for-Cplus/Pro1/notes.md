@@ -30,5 +30,25 @@ sin(theta_ijkl)=[(e_kj*e_kl)/sin(phi_jkl)]*e_ki
 
 ## Torison/Dihedral Angles
 
-Cos(Tau_ijkl)=(e_ij*e_jk)
+Cos(Tau_ijkl)=[(e_ij*e_jk)(e_jk*e_kl)]/(sin(phi_ijk)*sin(phi_jkl))
+
+## Center of mass translation
+
+Xcm = sum(mixi)/sum(mi)
+Ycm = sum(miyi)/sum(mi)
+Zcm = sum(mizi)/sum(mi)
+
+## Principal Moments of Inertia
+
+Diagonal:
+I_xx=sum(mi(yi^2+zi^2))
+I_yy=sum(mi(xi^2+zi^2))
+I_zz=sum(mi(xi^2+yi^2))
+
+off_diagonal
+I_xy=sum(mixiyi)
+I_xz=sum(mixizi)
+I_yz=sum(mi)
+
+
 
