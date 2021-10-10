@@ -50,5 +50,8 @@ I_xy=sum(mixiyi)
 I_xz=sum(mixizi)
 I_yz=sum(mi)
 
+$$
+y=x^2 
+$$
 
 
