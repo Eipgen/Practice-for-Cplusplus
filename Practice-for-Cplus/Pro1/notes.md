@@ -4,6 +4,7 @@ C++ -c  readmol_old.cc && c++ readmol_old.o -o readold && readold
 ```
 Number of atoms: 7
 Input Cartesian coordinates:
+
 6       0.000000000000       0.000000000000       1.889725988579
 6       2.551130084582       0.000000000000       1.889725988579
 6      -2.551130084582       0.000000000000       1.889725988579
@@ -57,10 +58,6 @@ $$
 I_xy=sum(mixiyi)
 I_xz=sum(mixizi)
 I_yz=sum(mi)
-$$
-
-$$
-y=x^2 
 $$
 
 
