@@ -14,9 +14,9 @@ Input Cartesian coordinates:
 
 
 ## Bond Length
-
+$$
 R_ij=sqrt((x_i-x_j)^2+(y_i-y_j)^2+(z_i-z_j)^2)
-
+$$
 ## Bond Angles
 cos(phi_ijk)=e_ji*e_jk
 
