@@ -20,9 +20,14 @@ $$
 ## Bond Angles
 $$
 cos(phi_ijk)=e_ji*e_jk
-
+$$
+$$
 (e^x)_ij=-(x_i-x_j)/R_ij
+$$
+$$
 (e^y)_ij=-(y_i-y_j)/R_ij
+$$
+$$
 (e^z)_ij=-(z_i-z_j)/R_ij
 $$
 ## out of plane angles
