@@ -42,9 +42,9 @@ cos(Tau_{ijkl})=[(e_{ij}*e_{jk})(e_{jk}*e_{kl})]/(sin(phi_{ijk})*sin(\phi_{jkl})
 $$
 ## Center of mass translation
 $$
-Xcm = \sum(m_ix_i)/\sum(m_i)
-Ycm = \sum(m_iy_i)/\sum(m_i)
-Zcm = \sum(m_iz_i)/\sum(m_i)
+Xcm = \sum(m_ix_i)/\sum(m_i)  
+Ycm = \sum(m_iy_i)/\sum(m_i)  
+Zcm = \sum(m_iz_i)/\sum(m_i)  
 $$
 ## Principal Moments of Inertia
 
