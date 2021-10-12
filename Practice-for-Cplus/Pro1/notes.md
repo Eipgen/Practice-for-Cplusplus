@@ -25,15 +25,15 @@ cos(\phi_{ijk})=e_{ji}*e_{jk}
 $$
 
 $$
-(e^x)_{ij}=-(x_i-x_j)/R_{ij}
+e_{ij}^x=-(x_i-x_j)/R_{ij}
 $$
 
 $$
-(e^y)_{ij}=-(y_i-y_j)/R_{ij}
+e_{ij}^y=-(y_i-y_j)/R_{ij}
 $$
 
 $$
-(e^z)_{ij}=-(z_i-z_j)/R_{ij}
+e_{ij}^z=-(z_i-z_j)/R_{ij}
 $$
 
 ## out of plane angles
