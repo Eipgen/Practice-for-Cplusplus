@@ -17,48 +17,48 @@ Input Cartesian coordinates:
 
 ## Bond Length
 $$
-R_ij=\sqrt((x_i-x_j)^2+(y_i-y_j)^2+(z_i-z_j)^2)
+R_ij=\sqrt{(x_i-x_j)^2+(y_i-y_j)^2+(z_i-z_j)^2}
 $$
 ## Bond Angles
 $$
-cos(phi_ijk)=e_ji*e_jk
+cos(phi_{ijk})=e_{ji}*e_{jk}
 $$
 $$
-(e^x)_ij=-(x_i-x_j)/R_ij
+(e^x)_{ij}=-(x_i-x_j)/R_{ij}
 $$
 $$
-(e^y)_ij=-(y_i-y_j)/R_ij
+(e^y)_{ij}=-(y_i-y_j)/R_{ij}
 $$
 $$
-(e^z)_ij=-(z_i-z_j)/R_ij
+(e^z)_{ij}=-(z_i-z_j)/R_{ij}
 $$
 ## out of plane angles
 $$
-\sin(theta_ijkl)=[(e_kj*e_kl)/sin(phi_jkl)]*e_ki
+\sin(\theta_{ijkl})=[(e_{kj}*e_{kl})/sin(\phi_{jkl})]*e_{ki}
 $$
 ## Torison/Dihedral Angles
 $$
-cos(Tau_ijkl)=[(e_ij*e_jk)(e_jk*e_kl)]/(sin(phi_ijk)*sin(phi_jkl))
+cos(Tau_{ijkl})=[(e_{ij}*e_{jk})(e_{jk}*e_{kl})]/(sin(phi_{ijk})*sin(\phi_{jkl}))
 $$
 ## Center of mass translation
 $$
-Xcm = \sum(mixi)/\sum(mi)
-Ycm = \sum(miyi)/\sum(mi)
-Zcm = \sum(mizi)/\sum(mi)
+Xcm = \sum(m_ix_i)/\sum(m_i)
+Ycm = \sum(m_iy_i)/\sum(m_i)
+Zcm = \sum(m_iz_i)/\sum(m_i)
 $$
 ## Principal Moments of Inertia
 
 Diagonal:
 $$
-I_xx=sum(mi(yi^2+zi^2))
-I_yy=sum(mi(xi^2+zi^2))
-I_zz=sum(mi(xi^2+yi^2))
+I_{xx}=sum(mi(yi^2+zi^2))
+I_{yy}=sum(mi(xi^2+zi^2))
+I_{zz}=sum(mi(xi^2+yi^2))
 $$
 off_diagonal
 $$
-I_xy=sum(mixiyi)
-I_xz=sum(mixizi)
-I_yz=sum(mi)
+I_xy=sum(m_ix_iy_i)
+I_xz=sum(m_ix_iz_i)
+I_yz=sum(m_iy_iz_i)
 $$
 
 
