@@ -42,7 +42,7 @@ $$
 $$
 ## Torison/Dihedral Angles
 $$
-cos(\Tau_{ijkl})=[(e_{ij}*e_{jk})(e_{jk}*e_{kl})]/(sin(\phi_{ijk})*sin(\phi_{jkl}))
+cos(\tau_{ijkl})=[(e_{ij}*e_{jk})(e_{jk}*e_{kl})]/(sin(\phi_{ijk})*sin(\phi_{jkl}))
 $$
 ## Center of mass translation
 $$
