@@ -50,15 +50,15 @@ $$
 
 Diagonal:
 $$
-I_{xx}=sum(mi(yi^2+zi^2))
-I_{yy}=sum(mi(xi^2+zi^2))
-I_{zz}=sum(mi(xi^2+yi^2))
+I_{xx}=\sum(mi(yi^2+zi^2))
+I_{yy}=\sum(mi(xi^2+zi^2))
+I_{zz}=\sum(mi(xi^2+yi^2))
 $$
 off_diagonal
 $$
-I_xy=sum(m_ix_iy_i)
-I_xz=sum(m_ix_iz_i)
-I_yz=sum(m_iy_iz_i)
+I_{xy}=\sum(m_ix_iy_i)
+I_{xz}=\sum(m_ix_iz_i)
+I_{yz}=\sum(m_iy_iz_i)
 $$
 
 
