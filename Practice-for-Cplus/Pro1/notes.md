@@ -58,13 +58,13 @@ $$
 
 Diagonal:
 $$
-I_{xx}=\sum(mi(yi^2+zi^2))
+I_{xx}=\sum(m_i(y_i^2+z_i^2))
 $$
 $$
-I_{yy}=\sum(mi(xi^2+zi^2))
+I_{yy}=\sum(m_i(x_i^2+z_i^2))
 $$
 $$
-I_{zz}=\sum(mi(xi^2+yi^2))
+I_{zz}=\sum(m_i(x_i^2+y_i^2))
 $$
 off_diagonal
 $$
