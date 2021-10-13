@@ -1,2 +1,2 @@
 
-You can Read the formula with MathJax
+You can read the formula with MathJax
