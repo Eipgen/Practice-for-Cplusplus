@@ -48,7 +48,9 @@ I_zz=sum(mi(xi^2+yi^2))
 off_diagonal
 I_xy=sum(mixiyi)
 I_xz=sum(mixizi)
-I_yz=sum(mi)
+I_yz=sum(miyizi)
+
+
 
 
 
