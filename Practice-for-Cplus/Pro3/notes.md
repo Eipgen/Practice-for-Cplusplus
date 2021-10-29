@@ -71,3 +71,31 @@ $$L[\{\chi_i\}]=E_{HF}[\{\chi_i\}]-\sum_{ij}\epsilon_{ij}(\braket{i|j}-\delta_{i
 $\epsilon_{ij}$ 是未定的拉格朗日乘子，$\braket{i|j}$ 是自旋轨道的重叠积分
 
 $$\braket{i|j}=\int\chi_i^*(x)\chi_j^*(x)dx$$
+将其中的$\delta L=0$,最后可以得到使用HF描述轨道的方法
+
+$$
+h(x_1)\chi_i(x_1)+\sum_{j!=i}[\int dx_2|\chi_j(x_2)|^2r_{12}^{-1}]\chi_i(x_1)-\sum_{j!=i}[\int dx_2\chi_j^*(x_2)\chi_i(x_2)r_{12}^{-1}]\chi_j(x_1)=\epsilon_i\chi_i(x_1)
+$$
+其中的$\epsilon_i$ 是能量的特征值，$\chi_i$ 是轨道
+求解Hatree-Fock 方法用的是Roothaan提出来的矩阵形式，其中的计算首先需要给出一个波函数的初猜，使用其构造出来Fock 矩阵，对角化矩阵之后求解得到近似的能量和波函数，然后反复迭代。
+在上面的式子中第一个括号里面是库伦相互作用项，第二个括号里面是交换相互作用项。各自定义库伦算子和交换算子
+$$J_j(x_1)=\int dx_2|\chi_j(x_2)^2|r_{12}^{-1}$$
+给出的是轨道$\chi_j$ 上点x1 上的平均局域电势
+$$K_j(x_1)\chi_i(x_1)=[\int dx_2 \chi_j^*r_{12}^{-1}\chi_i(x_2)]$$
+交换项的出现是为了符合波函数反对称的要求，在库伦算子和交换算子的作用下，
+$$[h(x_1)+\sum_{j!=i}J_j(x_1)-\sum_{j!=i}K_j(x_1)]\chi_i(x_1)=\epsilon_i\chi_i(x_1)$$
+这里的Hatree Fock 方程变成了特征值方程，这里可以得到一个新的算符
+Fock 算符
+$$f(x_1)=h(x_1)+\sum_{j}J_j(x_1)-K_j(x_1)$$
+$$f(x_1)\chi_i(x_1)=\epsilon_i\chi_i(x_1)$$
+又因为波函数可以使用基函数进行表示
+$$\chi_i=\sum_{\mu=1}^{K}C_{\mu i}\Chi_{\mu}$$
+$$f(x_1)\sum_{v}C_{vi}\Chi_v(x_1)=\epsilon_i\sum_{v}C_{vi}\Chi_v(x_1)$$
+函数两边乘上一个波函数的复数形式之后，$\chi_{\mu}^*(x1)$得到
+$$\sum_{v}C_{vi}\int dx_1\Chi_{\mu}^*(x_1)f(x_1)\Chi_v(x_1)=\epsilon_i\sum_{v}C_{vi}\int dx_1\Chi_{\mu}^*(x_1)\Chi_v(x_1)$$
+
+其中矩阵元素可以分成两个部分，一个重叠矩阵，一个是Fock 矩阵。
+使用简单的矩阵形式进行表示可以是
+
+$$\sum_{v}F_{\mu v}C_{vi}=\epsilon_i\sum_{v}S_{\mu v}C_{vi}$$
+$$FC=SC\epsilon$$
