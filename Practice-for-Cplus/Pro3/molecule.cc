@@ -7,12 +7,6 @@
 
 
 // First dedin how to obtain the information from an input file 
-
-
-
-
-
-
 Molecule::Molecule(const char *filename,int q)
 {
     charge=q;

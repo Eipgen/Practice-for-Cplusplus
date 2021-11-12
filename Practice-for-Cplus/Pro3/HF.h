@@ -22,6 +22,7 @@ class HatreeFock
         Matrix V;
         Matrix Core;       // My Core Hamiltionian will be made up of the t and v(kinetic and Potential)
         Matrix SOM;        // Two electron repulsion integral
+        Vector TEI         // the electron repulsion integral
         Vector ioff;
         Matrix D;          // Density Matrix
         Matrix F;          // New Fock matrix formed from 
@@ -53,5 +54,6 @@ class HatreeFock
 
         HatreeFock(const char *filename);
         ~HatreeFock();
+        
 };
 
