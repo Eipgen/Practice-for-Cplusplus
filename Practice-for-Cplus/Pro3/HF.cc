@@ -268,3 +268,20 @@ int HatreeFock::build_density(HatreeFock& hf, int elec_num)
     }
     return 0;
 }
+
+// compute the energy
+int HatreeFock::compute_SCF(HatreeFock& hf)
+{
+    hf.SCF = 0.0;
+    for(int i=0,i<hf.D.rows();i++){
+        for(int j=0;j<hf.D.cols();j++){
+            hf.SCF += hf.D(i,j)*(hf.core(i,j)+hf.F(i,j));
+        }
+    }
+    hf.tot_E =hf.SCF+hf.enuc;
+    return 0;
+}
+HatreeFock::~HatreeFock()
+{
+    //dtor
+}
