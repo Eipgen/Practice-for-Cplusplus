@@ -26,8 +26,27 @@ class Readcoord:
         for i in range(len(T)):
             for j in range(i+1,len(T)):
                     print(str(j)+" "+str(i),np.linalg.norm(T[i][1:]-T[j][1:]))
-print(Readcoord("data/acetaldehyde.dat").distance())
-
+    def angle(self):
+        T=np.array(self.readfile())
+        print("Angles (degrees):")
+        for i in range(len(T)):
+            for j in range(i+1,len(T)):
+                for k in range(j+1,len(T)):
+                    print(str(k)+" "+str(j)+" "+str(i),np.rad2deg(np.arccos(np.dot(T[i][1:]-T[j][1:],T[k][1:]-T[j][1:])/np.linalg.norm(T[i][1:]-T[j][1:])/np.linalg.norm(T[k][1:]-T[j][1:]))))
+    def dihedral(self):
+        T=np.array(self.readfile())
+        print("Dihedral angles (degrees):")
+        for i in range(len(T)):
+            for j in range(i+1,len(T)):
+                for k in range(j+1,len(T)):
+                    for l in range(k+1,len(T)):
+                        print(str(l)+" "+str(k)+" "+str(j)+" "+str(i),np.rad2deg(np.arctan2(np.linalg.norm(np.cross(T[i][1:]-T[j][1:],T[k][1:]-T[j][1:])),np.dot(T[i][1:]-T[j][1:],T[k][1:]-T[j][1:]))))
+    def outofplane(self):
+        T=np.array(self.readfile())
+        print("Out-of-plane angles (degrees):")
+        for i in range(len(T)):
+            
+print(Readcoord("data/acetaldehyde.dat").dihedral())
 
 
 
