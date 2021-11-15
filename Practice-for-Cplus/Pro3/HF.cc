@@ -208,5 +208,63 @@ int HatreeFock::build_orthog(HatreeFock& hf)
     return 0;
 }
 
-int HatreeFock::
+int HatreeFock::update_SCF(HatreeFock& hf)
+{
+    int i,j,k,l,ij,kl,ijkl,ik,jl,ikjl;
+    hf.F = hf.core;
+    for(int i=0;i<hf.F.rows();i++){
+        for(int j=0;j<hf.F.rows();j++){
+            for(int k=0;k<hf.F.rows();k++){
+                for(int l=0;l<hf.F.rows();l++){
+                    ij = INDEX(i,j);
+                    kl = INDEX(k,l); // if (i>j) ij=i*(i+1)/2+j; else ij=j*(j+1)/2+i;
+                    ijkl = INDEX(ij,kl);
+                    ik = INDEX(i,k);
+                    jl = INDEX(j,l);
+                    ikjl = INDEX(ik,jl);
+                    hf.F(i,j) += hf.D(k,l)*(2.0*hf.TEI(ijkl)-hf.TEI(ikjl));
+                }
+            }
+        }
+    }
+    if(hf.iter ==1){
+        hf.print_matrix("Fock Matrix (F): \n",hf.F);
+    }
+    return 0;
 }   
+
+// Build the density matrix
+
+int HatreeFock::build_density(HatreeFock& hf, int elec_num)
+{
+    hf.F_p=hf.SOM.transpose()*hf.F*hf.SOM;  // Fock Matrix for initial guess
+    //print the initial Fock matrix
+    if(hf.iter==0){
+        hf.print_matrix("Fock Matrix (F): \n",hf.F_p);
+    }
+
+    //Diagonalize Fock matrix
+
+    Eigen::SelfAdjointEigenSolver<Matrix> solver(hf.F_p);
+    Matrix C_p = solver.eigenvectors; // will be the eigenvectors of Fock matrix
+    Matrix E = solver.eigenvalues; // will be the eigenvalues of Fock matrix
+    
+    print_matrix("Eigenvectors of Fock Matrix (C): \n",C_p);
+    print_vector("Eigenvalues of Fock Matrix (E): \n",E);
+
+    //transform the vector into the no-orthogonalized atom basis
+    hf.C = hf.SOM*C_p;
+    if(hf.iter==0){
+        hf.print_matrix("initial coefficient matrix: \n",hf.C);
+    }
+
+    //Build the density; will caulculate tot electron in the molecule.cc
+
+    int occ = elec_num/2; // occ is the number of occupied orbitals
+    Matrix C_d = hf.C.block(0,0,hf.C.rows(),occ);
+    hf.D = C_d*C_d.transpose();   //C_do is 7x5 and C_do_T is 5x7 so my resulting matrix is 7x7
+    if(hf.inter==0){
+        hf.print_matrix("Initial Density Matrix (D): \n",hf.D);
+    }
+    return 0;
+}

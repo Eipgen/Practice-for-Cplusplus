@@ -20,7 +20,7 @@ class HatreeFock
         Matrix S;          // The OverLap intergral is 7x7 integral so s[i][j]=1.0000 if i=j=1
         Matrix T;
         Matrix V;
-        Matrix Core;       // My Core Hamiltionian will be made up of the t and v(kinetic and Potential)
+        Matrix core;       // My Core Hamiltionian will be made up of the t and v(kinetic and Potential)
         Matrix SOM;        // Two electron repulsion integral
         Vector TEI         // the electron repulsion integral
         Vector ioff;
