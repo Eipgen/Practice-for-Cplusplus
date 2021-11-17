@@ -22,14 +22,14 @@ class HatreeFock
         Matrix V;
         Matrix core;       // My Core Hamiltionian will be made up of the t and v(kinetic and Potential)
         Matrix SOM;        // Two electron repulsion integral
-        Vector TEI         // the electron repulsion integral
+        Vector TEI;        // the electron repulsion integral
         Vector ioff;
         Matrix D;          // Density Matrix
         Matrix F;          // New Fock matrix formed from 
         Matrix F_p;
         Matrix C;
         int iter;
-        int inter_max;
+        int iter_max;
         double SCF;
         double tot_E;
         double old_SCF; // For my while loop, that tests for convergence
@@ -46,8 +46,8 @@ class HatreeFock
         int build_core(HatreeFock& hf);
         int read_tei(HatreeFock& hf,const char *filename);
 
-        int build_orthog(HatreeFock& hf,const char *filename);
-        int build_density(HatreeFock& hf,const char *filename);
+        int build_orthog(HatreeFock& hf);
+        int build_density(HatreeFock& hf,int elec_num);
         
         int compute_SCF(HatreeFock& hf);
         int update_SCF(HatreeFock& hf);

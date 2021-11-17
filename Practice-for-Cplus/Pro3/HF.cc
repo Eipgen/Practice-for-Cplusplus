@@ -1,5 +1,5 @@
 #include <iostream>
-#include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <cstdio>
 #include <cassert>
@@ -25,11 +25,11 @@ typedef Eigen::Matrix<double, Eigen::Dynamic, 1>Vector;
 
 HatreeFock::HatreeFock(const char *filename)
 {
-    std::ifstream is(filename)
+    std::ifstream is (filename);
     assert(is.good());
     is.seekg(0,std::ios_base::end);
-    char ch = " ";
-    while(ch !="\n"){
+    char ch = ' ';
+    while(ch !='\n'){
         is.seekg(-2,std::ios_base::cur);
         if((int)is.tellg() <=0){
             is.seekg(0);
@@ -38,7 +38,7 @@ HatreeFock::HatreeFock(const char *filename)
         is.get(ch);
     }
     is >> norb;
-    cout << "Number of atomic orbitals" <<norb <<endl;
+    cout << "Number of atomic orbitals\n" <<norb <<endl;
 
 // Use the norb to create the matrix
     S.resize(norb,norb);
@@ -49,14 +49,14 @@ HatreeFock::HatreeFock(const char *filename)
     D.resize(norb,norb);
 
     // Create Linear array for Two electron integral
-    int M = (norb*(norb+1))/2
+    int M = (norb*(norb+1))/2;
     int N =(M*(M+1))/2;
     TEI.resize(N);
     ioff.resize(BIGNUM);
 
     // Create the Fock Matrix of same dimension as core and oei matrices
     F.resize(norb,norb);
-    is.close()
+    is.close();
 }
 
 void HatreeFock::print_matrix(std::string mat_string, Matrix matrix)
@@ -64,10 +64,10 @@ void HatreeFock::print_matrix(std::string mat_string, Matrix matrix)
     cout << endl;
     cout << mat_string;
     for(int i=0;i<matrix.rows();i++){
-        for(int j=0,j<matrix.cols();j++){
-            print("%13.7f",matrix(i,j));
+        for(int j=0;j<matrix.cols();j++){
+            printf("%13.7f",matrix(i,j));
         }
-        print("\n");
+        printf("\n");
     }
     cout << endl;
     return;
@@ -99,16 +99,16 @@ double HatreeFock::read_enuc(const char *filename)
 // read in one electron integrals abd store into respective matrices
 int HatreeFock::read_overlap(HatreeFock& hf,const char *filename)
 {
-    std::filename oei(filename);
+    std::ifstream oei(filename);
     assert(oei.good());
 
     // Read in data;
-    int m,
-    int n,
+    int m;
+    int n;
     while (oei >>m >>n >>hf.S(m-1,n-1)){
         hf.S(n-1,m-1)=hf.S(m-1,n-1);
     }
-    oei.close()
+    oei.close();
     print_matrix("Overlap Intergral Matrix (s): \n",hf.S);
     return 0;   
 }
@@ -156,7 +156,7 @@ int HatreeFock::build_core(HatreeFock& hf)
             hf.core(i,j)=hf.T(i,j)+hf.V(i,j);
         }
     }
-    hf.print_matrix("Core Hamiltonian Matrix (h):\n",hf.core)
+    hf.print_matrix("Core Hamiltonian Matrix (h):\n",hf.core);
 }
 
 //Read in two-elctron replusion integral
@@ -168,17 +168,17 @@ int HatreeFock::read_tei(HatreeFock& hf, const char *filename)
 
     //read file
     ioff(0)=0;
-    for(int i=-0;n<1000;n++){
+    for(int n=0;n<1000;n++){
         ioff(n)=ioff(n-1)+n;
     }
-    int i,j,k,l,lj,kl,ijkl;
+    int i,j,k,l,ij,kl,ijkl;
     double tei_val;
     while(tei >>i >> j >> k >>l >>tei_val){
         i-=1;
         j-=1;
         k-=1;
         l-=1;
-        
+
         ij=(i>j) ? (ioff(i)+j):(ioff(j)+i);
         kl=(k>l) ? (ioff(k)+l):(ioff(l)+k);
         ijkl =(ij>kl) ?(ioff(ij)+kl):(ioff(kl)+ij);
@@ -199,7 +199,7 @@ int HatreeFock::build_orthog(HatreeFock& hf)
     Matrix evl = solver.eigenvalues();
 
 
-    for(int i=0;i <eval.size();i++)
+    for(int i=0;i <evl.size();i++)
         evl(i)=1/(sqrt(evl(i)));
 
     Matrix evl_D =evl.asDiagonal();
@@ -246,8 +246,8 @@ int HatreeFock::build_density(HatreeFock& hf, int elec_num)
     //Diagonalize Fock matrix
 
     Eigen::SelfAdjointEigenSolver<Matrix> solver(hf.F_p);
-    Matrix C_p = solver.eigenvectors; // will be the eigenvectors of Fock matrix
-    Matrix E = solver.eigenvalues; // will be the eigenvalues of Fock matrix
+    Matrix C_p = solver.eigenvectors(); // will be the eigenvectors of Fock matrix
+    Matrix E = solver.eigenvalues(); // will be the eigenvalues of Fock matrix
     
     print_matrix("Eigenvectors of Fock Matrix (C): \n",C_p);
     print_vector("Eigenvalues of Fock Matrix (E): \n",E);
@@ -263,7 +263,7 @@ int HatreeFock::build_density(HatreeFock& hf, int elec_num)
     int occ = elec_num/2; // occ is the number of occupied orbitals
     Matrix C_d = hf.C.block(0,0,hf.C.rows(),occ);
     hf.D = C_d*C_d.transpose();   //C_do is 7x5 and C_do_T is 5x7 so my resulting matrix is 7x7
-    if(hf.inter==0){
+    if(hf.iter==0){
         hf.print_matrix("Initial Density Matrix (D): \n",hf.D);
     }
     return 0;
@@ -273,7 +273,7 @@ int HatreeFock::build_density(HatreeFock& hf, int elec_num)
 int HatreeFock::compute_SCF(HatreeFock& hf)
 {
     hf.SCF = 0.0;
-    for(int i=0,i<hf.D.rows();i++){
+    for(int i=0;i<hf.D.rows();i++){
         for(int j=0;j<hf.D.cols();j++){
             hf.SCF += hf.D(i,j)*(hf.core(i,j)+hf.F(i,j));
         }

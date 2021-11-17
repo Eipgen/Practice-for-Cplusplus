@@ -1,24 +1,26 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <cmath>
 #include <cstdio>
-#include <string>
-#include "HF.cc"
+#include <cassert>
+#include "HF.h"
 #include "molecule.h"
-#include "basis.h"
+
 using namespace std;
 
 int main()
 {
-    Molecule mol("./input/h2o/DZ/geom.dat");
-    HatreeFock hf("./input/h2o/DZ/s.dat");
+    Molecule mol("geom.dat",0);
+    HatreeFock hf("s.dat");
 
     // Read the nuclear replusion energy
-    hf.enuc = hf.read_enuc("./input/h2o/DZ/enuc.dat");
+    hf.enuc = hf.read_enuc("enuc.dat");
 
     // Read and print single electron integrals
-    hf.read_overlap(hf,"/input/h2o/DZ/s.dat");
-    hf.read_kinetic(hf,"/input/h2o/DZ/t.dat");
-    hf.read_potential(hf,"/input/h2o/DZ/v.dat");
+    hf.read_overlap(hf,"s.dat");
+    hf.read_kinetic(hf,"t.dat");
+    hf.read_potential(hf,"v.dat");
     hf.build_core(hf);
 
     //Read and print the two electron integrals
@@ -27,7 +29,7 @@ int main()
     hf.build_orthog(hf);
     //Build Initial Guess Density with guess Fock Matrix
     hf.F=hf.core;
-    hf.build_density(hf,mol.electron_count);
+    hf.build_density(hf,mol.electron_count());
     hf.old_D =hf.D;
 
     //Compute the Initial SCF energy;
@@ -40,10 +42,10 @@ int main()
     //Build the new density matrix and iterate Step 7-9 until convergence is reached
 
     double tol = 1e-12;
-    hf.inter_max = 100;
+    hf.iter_max = 100;
     hf.iter = 0;
-    double = delta_E = 1.0;
-    while(abs(delta_E) > tol && hf.iter <iter.max){
+    double  delta_E = 1.0;
+    while(abs(delta_E) > tol && hf.iter <hf.iter_max){
         hf.iter += 1;
         double rms_D = 0.0;
 
@@ -54,6 +56,9 @@ int main()
         //Compute the new SCF energy
         hf.compute_SCF(hf);
         // Test the root-mean-squred difference in Densities for convergence
+        delta_E = hf.SCF -hf.old_SCF;
+        hf.old_SCF=hf.SCF;
+        
         for(int i=0;i<hf.D.rows();i++){
             for(int j=0;i<hf.D.cols();j++){
                 rms_D += (hf.D(i,j)-hf.old_D(i,j))*(hf.D(i,j)-hf.old_D(i,j));
@@ -64,7 +69,7 @@ int main()
         if(hf.iter==1){
             printf("%-12s %-20s %-20s %-20s %-20s \n","Iter","E(elec)","E(tot)","Delta(E)","RMS(S)");
         }
-        printf("%04d %20.12f %20.12f %20.12f %20.12f \n", hf.iter, hf.SCF, hf.tot_E, delta_E, rms_D));
+        printf("%04d %20.12f %20.12f %20.12f %20.12f \n", hf.iter, hf.SCF, hf.tot_E, delta_E, rms_D);
     }
-    retrun 0;
+    return 0;
 }

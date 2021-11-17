@@ -2,6 +2,7 @@
 #include <iostream> // define the cin;cout;cerr;clog
 #include <fstream>  //  ofstream and ifstream. ouput the file and read file 
 #include <iomanip>  // contriol the ouput
+#include <cstdio>
 #include <cassert>  // Aborts program if user-specified condition NOT true
 #include <cmath>    // use the cmath function
 
@@ -18,7 +19,7 @@ Molecule::Molecule(const char *filename,int q)
     //allocate space using next lines to be read
 
     zvals = new double[natom];
-    geom = new double*[natom];
+    geom = new double* [natom];
 
     for(int i=0;i<natom;i++)
         geom[i] = new double[3]; // natom # of rows and then we set up coordinates next for each atom
@@ -102,28 +103,6 @@ double Molecule::oop(int a ,int b, int c, int d)
 }
 
 
-// this calculte the out of plane angle /doherral angle between atoms
-
-double Molecule::oop(int i, int j, int k, int l)
-{
-    double ejkl_x=(unit(1,k,j)*unit(2,k,l)-unit(2,k,j)*unit(1,k,l));
-    double ejkl_y=(unit(2,k,j)*unit(0,k,l)-unit(0,k,j)*unit(2,k,l));
-    double ejkl_z=(unit(3,k,j)*unit(1,k,l)-unit(1,k,j)*unit(3,k,l));
-
-    double exx = ejkl_x*unit(0,k,i);
-    double eyy = ejkl_y*unit(1,k,i);
-    double ezz = ejkl_z*unit(2,k,i);
-
-    double theta = (exx+eyy+ezz)/sin(angle(j,k,l));
-    if(theta < -1.0) theta =asin(1.0);
-    else if(theta > 1.0) theta = asin(1.0);
-    else theta = asin(theta);
-
-    return theta;
-
-}
-
-
 // compute the the angle between the a-b-c and b-c-d
 double Molecule::torsion(int a,int b,int c,int d)
 {
@@ -164,4 +143,11 @@ double Molecule::torsion(int a,int b,int c,int d)
   return tau*sign;
 
 
+}
+Molecule::~Molecule()
+{
+    delete[] zvals;
+    for(int i=0; i<natom; i++)
+        delete[] geom[i];
+    delete[] geom;
 }
