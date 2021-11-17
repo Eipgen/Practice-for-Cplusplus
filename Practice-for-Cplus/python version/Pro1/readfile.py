@@ -22,6 +22,8 @@ class Readcoord:
     
     def distance(self):
         T=np.array(self.readfile())
+
+        
         print("Interatomic distances (bohr):")
         for i in range(len(T)):
             for j in range(i+1,len(T)):
