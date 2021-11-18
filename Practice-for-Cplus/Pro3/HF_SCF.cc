@@ -34,7 +34,8 @@ int main()
 
     //Compute the Initial SCF energy;
     hf.compute_SCF(hf);
-    hf.old_SCF =hf.SCF;
+    
+    hf.old_SCF = hf.SCF;
 
     printf("The intial SCF electronic energy is %12.12f Hartree.\n",hf.SCF);
     printf("The total energy is %12.12f Hatree.\n",hf.tot_E);
@@ -44,7 +45,7 @@ int main()
     double tol = 1e-12;
     hf.iter_max = 100;
     hf.iter = 0;
-    double  delta_E = 1.0;
+    double delta_E = 1.0;
     while(abs(delta_E) > tol && hf.iter <hf.iter_max){
         hf.iter += 1;
         double rms_D = 0.0;
@@ -56,20 +57,27 @@ int main()
         //Compute the new SCF energy
         hf.compute_SCF(hf);
         // Test the root-mean-squred difference in Densities for convergence
-        delta_E = hf.SCF -hf.old_SCF;
+        delta_E = hf.SCF - hf.old_SCF;
+        //cout << "delta E\n" << delta_E <<endl;
         hf.old_SCF=hf.SCF;
         
+        //cout << "rows  " << hf.D.rows() <<endl;
+        
         for(int i=0;i<hf.D.rows();i++){
-            for(int j=0;i<hf.D.cols();j++){
+            for(int j=0;j<hf.D.cols();j++){
                 rms_D += (hf.D(i,j)-hf.old_D(i,j))*(hf.D(i,j)-hf.old_D(i,j));
+                //rms_D += hf.D(i,j)-hf.old_D(i,j);
+                //cout << "rmsd\n" << rms_D <<endl;
             }
         }
         rms_D =sqrt(rms_D);
+        //cout << "rmsd\n" << rms_D <<endl;
+        
         hf.old_D = hf.D;
         if(hf.iter==1){
-            printf("%-12s %-20s %-20s %-20s %-20s \n","Iter","E(elec)","E(tot)","Delta(E)","RMS(S)");
+            printf("%-12s %-20s %-20s %-20s %-20s \n","Iter","E(elec)","E(tot)","Delta(E)","RMSD");
         }
-        printf("%04d %20.12f %20.12f %20.12f %20.12f \n", hf.iter, hf.SCF, hf.tot_E, delta_E, rms_D);
-    }
+        printf("%04d %20.12f %20.12f %20.12f %20.12f \n", hf.iter, hf.SCF, hf.tot_E, delta_E,rms_D);
+        }
     return 0;
 }

@@ -67,7 +67,7 @@ void HatreeFock::print_matrix(std::string mat_string, Matrix matrix)
         for(int j=0;j<matrix.cols();j++){
             printf("%13.7f",matrix(i,j));
         }
-        printf("\n");
+        //printf("\n");
     }
     cout << endl;
     return;
@@ -157,6 +157,7 @@ int HatreeFock::build_core(HatreeFock& hf)
         }
     }
     hf.print_matrix("Core Hamiltonian Matrix (h):\n",hf.core);
+    return 0;
 }
 
 //Read in two-elctron replusion integral
@@ -168,7 +169,7 @@ int HatreeFock::read_tei(HatreeFock& hf, const char *filename)
 
     //read file
     ioff(0)=0;
-    for(int n=0;n<1000;n++){
+    for(int n=1;n<1000;n++){
         ioff(n)=ioff(n-1)+n;
     }
     int i,j,k,l,ij,kl,ijkl;
@@ -181,12 +182,12 @@ int HatreeFock::read_tei(HatreeFock& hf, const char *filename)
 
         ij=(i>j) ? (ioff(i)+j):(ioff(j)+i);
         kl=(k>l) ? (ioff(k)+l):(ioff(l)+k);
-        ijkl =(ij>kl) ?(ioff(ij)+kl):(ioff(kl)+ij);
+        ijkl =(ij>kl) ? (ioff(ij)+kl):(ioff(kl)+ij);
 
         hf.TEI(ijkl)=tei_val;
     }
     tei.close();
-    hf.print_vector("IEI array: \n",hf.TEI);
+    // hf.print_vector("IEI array: \n",hf.TEI);
     return 0;
 }
 
@@ -202,7 +203,7 @@ int HatreeFock::build_orthog(HatreeFock& hf)
     for(int i=0;i <evl.size();i++)
         evl(i)=1/(sqrt(evl(i)));
 
-    Matrix evl_D =evl.asDiagonal();
+    Matrix evl_D = evl.asDiagonal();
     hf.SOM = evc *evl_D * evc_T;
     hf.print_matrix("symmetric Orthogonalization Matrix (S^1/2): \n",hf.SOM);
     return 0;
@@ -237,33 +238,35 @@ int HatreeFock::update_SCF(HatreeFock& hf)
 
 int HatreeFock::build_density(HatreeFock& hf, int elec_num)
 {
-    hf.F_p=hf.SOM.transpose()*hf.F*hf.SOM;  // Fock Matrix for initial guess
+    hf.F_p=hf.SOM.transpose() *hf.F * hf.SOM;  // Fock Matrix for initial guess
     //print the initial Fock matrix
     if(hf.iter==0){
         hf.print_matrix("Fock Matrix (F): \n",hf.F_p);
     }
-
     //Diagonalize Fock matrix
 
     Eigen::SelfAdjointEigenSolver<Matrix> solver(hf.F_p);
     Matrix C_p = solver.eigenvectors(); // will be the eigenvectors of Fock matrix
     Matrix E = solver.eigenvalues(); // will be the eigenvalues of Fock matrix
     
-    print_matrix("Eigenvectors of Fock Matrix (C): \n",C_p);
-    print_vector("Eigenvalues of Fock Matrix (E): \n",E);
+    //print_matrix("Eigenvectors of Fock Matrix (C): \n",C_p);
+    //print_vector("Eigenvalues of Fock Matrix (E): \n",E);
 
     //transform the vector into the no-orthogonalized atom basis
-    hf.C = hf.SOM*C_p;
+    hf.C = hf.SOM * C_p;
+    
     if(hf.iter==0){
-        hf.print_matrix("initial coefficient matrix: \n",hf.C);
+        hf.print_matrix("initial coefficient matrix(C): \n",hf.C);
     }
 
     //Build the density; will caulculate tot electron in the molecule.cc
 
     int occ = elec_num/2; // occ is the number of occupied orbitals
+    
+    // cout << "occupied oribital number\n" << occ <<endl;
     Matrix C_d = hf.C.block(0,0,hf.C.rows(),occ);
     hf.D = C_d*C_d.transpose();   //C_do is 7x5 and C_do_T is 5x7 so my resulting matrix is 7x7
-    if(hf.iter==0){
+    if(hf.iter ==0){
         hf.print_matrix("Initial Density Matrix (D): \n",hf.D);
     }
     return 0;
@@ -279,9 +282,10 @@ int HatreeFock::compute_SCF(HatreeFock& hf)
         }
     }
     hf.tot_E =hf.SCF+hf.enuc;
+    //cout << "tot e in \n" << hf.tot_E <<endl;
     return 0;
 }
+
 HatreeFock::~HatreeFock()
 {
-    //dtor
 }
