@@ -26,7 +26,7 @@ int main(){
     {
         cout << mylog(value) << endl;
     }
-    else if (cin.get=='\n')
+    else if (cin )
         cout << mylog() << endl;
     return 0;
 }
