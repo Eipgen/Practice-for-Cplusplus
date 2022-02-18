@@ -32,3 +32,13 @@ int main()
     cout << "s[0]=" << s[0] << ",s[n-1]=" << s[n-1] <<endl;
     return 0;
 }
+
+
+//normal matrix muplication
+// for (i=0;i<m;i++)
+//     for (j=0;j<n;j++)
+//         for (k=0;k<m;k++)
+//              C[i][j]=C[i][j]+A[i][k]*B[k][j];
+
+
+// Stassen Matrix Multiplication
