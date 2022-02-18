@@ -23,8 +23,6 @@ double deviation(double x[],int n)
     return sqrt(sum/n);
 }
 
-int main()
-{
 
 int main()
 {
@@ -34,9 +32,10 @@ int main()
     for (i=0;i<100;i++)
     {
         RandomNumber=rand()%100;
+        cout << RandomNumber << " ";
         x[i]=RandomNumber;
     }
     cout << "mean=" << mean(x,100) << endl;
     cout << "deviation=" << deviation(x,100) << endl;
-    reurn 0;
+    return 0;
 }
