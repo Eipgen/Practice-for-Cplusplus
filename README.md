@@ -1,5 +1,5 @@
 
 # Practice-for-Cplus
-Cplus pratice 
+Cplusplus pratice 
 You can read the formula with MathJax
 
